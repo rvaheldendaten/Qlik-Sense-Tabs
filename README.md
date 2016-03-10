@@ -1,4 +1,4 @@
-Tabs for Qlik Sense
+Tabs for Qlik Sense (Compatible with Qlik Sense 2.1)
 
 The **Tabs for Qlik Sense** is an extension which allows you to add tabs on Qlik Sense.
 
