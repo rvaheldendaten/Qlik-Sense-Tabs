@@ -82,9 +82,12 @@ function ( qlik, props, cssContent ) {
 						
 			// Get tab1 object
 			if(layout.props.chart_for_tab1 && repeated > 1) {
-				app.visualization.get(layout.props.chart_for_tab1).then(function(vis){
-					vis.show("viz1-" + object_id);
-				});
+				//app.visualization.get(layout.props.chart_for_tab1).then(function(vis){
+				//	vis.show("viz1-" + object_id);
+				//});
+			  
+			    app.getObject( "viz1-" + object_id, layout.props.chart_for_tab1);
+			  
 				opened_object_id.push(layout.props.chart_for_tab1);
 			}
 
@@ -104,14 +107,16 @@ function ( qlik, props, cssContent ) {
 
 				if(eval("layout.props.chart_for_tab" + tab_id)) {	
 					// Get the new object
-					app.visualization.get(eval("layout.props.chart_for_tab" + tab_id)).then(function(vis){
-						vis.show('viz' + tab_id + '-' + object_id);						
-					});
+					//app.visualization.get(eval("layout.props.chart_for_tab" + tab_id)).then(function(vis){
+					//	vis.show('viz' + tab_id + '-' + object_id);						
+					//});
+				  
+				  	app.getObject( 'viz' + tab_id + '-' + object_id, eval("layout.props.chart_for_tab" + tab_id));
 
 					// Close the old object
-					app.visualization.get(opened_object_id.pop()).then(function(vis){
-						vis.close();		
-					});
+					//app.visualization.get(opened_object_id.pop()).then(function(vis){
+					//	vis.close();		
+					//});
 
 					// Store the new object ID
 					opened_object_id.push(eval("layout.props.chart_for_tab" + tab_id))
@@ -121,4 +126,3 @@ function ( qlik, props, cssContent ) {
 	};
 
 } );
-
