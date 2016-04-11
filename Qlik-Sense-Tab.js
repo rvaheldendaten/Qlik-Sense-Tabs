@@ -24,6 +24,22 @@ function ( qlik, props, cssContent ) {
 
 		return tab_content;	
 	}
+	
+	function createInstruction(tab_id,object_id){
+		var tab_content = "";
+		tab_content += 		'<section id="panel-' + tab_id + '-' + object_id + '" >';
+		tab_content += 			'<main class="panel-content" >';
+		tab_content += "<div>Please follow the following instructions:</div><br>";
+		tab_content +="<ol>";
+		tab_content += "<li>Create charts and add them to master items. (You can delete the charts after you added them to master items.)</li>";
+		tab_content += '<li>Drag and drop the "Tabs" extension onto the canvas.</li>';
+		tab_content += '<li>On the extension property, navigate to Settings>Properties and change the "Number of Tabs" to change the number of tabs displayed on the extension.</li>';
+		tab_content += "<li>Select a chart on the drop-down list and modify the label for each tab.</li>";
+		tab_content += "</ol>";
+		tab_content += 			'</main>';
+		tab_content += 		'</section>';	
+		return tab_content;	
+	}
 
 	function createChartObject(tab_id,object_id,layout) {
 
@@ -85,9 +101,11 @@ function ( qlik, props, cssContent ) {
 			html += '<article id="panels">';
 			html += 	'<div class="container">';
 			for (i=1; i<=num_of_tabs; i++) {
-				html += createTabContent(i,object_id);
 				if(eval("layout.props.chart_for_tab" + i)) {	
+					html += createTabContent(i,object_id);
 					createExportEvent(i,object_id,layout);
+				} else {
+					html += createInstruction(i,object_id,layout);
 				}
 			}
 			html += 	'</div>';
