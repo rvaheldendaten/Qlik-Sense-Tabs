@@ -12,12 +12,14 @@ function ( qlik, props, cssContent ) {
 	var opened_object_id = []; //Array to store opened object ID
 
 	//Function to create the new tab content
-	function createTabContent(tab_id,object_id) {
+	function createTabContent(tab_id,object_id,enable_export) {
 		var tab_content = "";
 		tab_content += 		'<section id="panel-' + tab_id + '-' + object_id + '" >';
 		tab_content += 			'<main class="panel-content" >';
 		//tab_content +=				'<button id="export_data-' + tab_id + '-' + object_id + '">Export</button>';
-		tab_content +=		'<div class="general-button" id="export_data-' + tab_id + '-' + object_id + '"><span class="icon1"><span class="icon2"></span></span></div>';
+		if(enable_export) {
+			tab_content +=		'<div class="general-button" id="export_data-' + tab_id + '-' + object_id + '"><span class="icon1"><span class="icon2"></span></span></div>';
+		}
 		tab_content += 				'<div id="viz' + tab_id + '-' + object_id + '" class="qvobject"></div>';
 		tab_content += 			'</main>';
 		tab_content += 		'</section>';		
@@ -102,8 +104,11 @@ function ( qlik, props, cssContent ) {
 			html += 	'<div class="container">';
 			for (i=1; i<=num_of_tabs; i++) {
 				if(eval("layout.props.chart_for_tab" + i)) {	
-					html += createTabContent(i,object_id);
-					createExportEvent(i,object_id,layout);
+					html += createTabContent(i,object_id,eval("layout.props.export_for_tab" + i));
+					
+					if(eval("layout.props.export_for_tab" + i)) {
+						createExportEvent(i,object_id,layout);
+					}
 				} else {
 					html += createInstruction(i,object_id,layout);
 				}

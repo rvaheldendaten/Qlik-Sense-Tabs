@@ -24,6 +24,10 @@ Remove "images", "preview.png", "README.md" and other git related files before i
 4. On the extension property, navigate to Settings>Properties and change the "Number of Tabs" to change the number of tabs displayed on the extension.
 5. Select a chart on the drop-down list and modify the label for each tab.
 
+## Limitations
+1. Right-click context menu (including take snapshot, open exploration menu, export to PDF, etc) cannot be used for tabbed chart. "Export data" is shown on the context menu, but it produces error when executed.
+2. Export button on the tabs can be used only for those charts which support data export. (Data export of pivot table, tree map chart, etc is not supported Qlik Sense 2.1. Also, you can not export data from filters.)
+
 ## Licence
 The software is provided "AS IS" without warranty of any kind. This project is licensed under the terms of the MIT license.
 
