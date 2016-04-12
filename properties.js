@@ -168,6 +168,51 @@ define(["qlik", 'ng!$q'], function ( qlik, $q) {
 		defaultValue : "Tab5"
 	};
 
+	//Export Checkbox1
+  	var export_for_tab1 = {
+		ref : "props.export_for_tab1",
+		label
+		: "Enable export for chart1",
+		type : "boolean",
+		defaultValue : true
+	};
+
+	//Export Checkbox2
+  	var export_for_tab2 = {
+		ref : "props.export_for_tab2",
+		label
+		: "Enable export for chart2",
+		type : "boolean",
+		defaultValue : true
+	};
+	
+	//Export Checkbox3
+  	var export_for_tab3 = {
+		ref : "props.export_for_tab3",
+		label
+		: "Enable export for chart3",
+		type : "boolean",
+		defaultValue : true
+	};
+	
+	//Export Checkbox4
+  	var export_for_tab4 = {
+		ref : "props.export_for_tab4",
+		label
+		: "Enable export for chart4",
+		type : "boolean",
+		defaultValue : true
+	};
+	
+	//Export Checkbox5
+  	var export_for_tab5 = {
+		ref : "props.export_for_tab5",
+		label
+		: "Enable export for chart5",
+		type : "boolean",
+		defaultValue : true
+	};
+	
 	// ****************************************************************************************
 	// Property Panel Definition
 	// ****************************************************************************************
@@ -183,14 +228,19 @@ define(["qlik", 'ng!$q'], function ( qlik, $q) {
 					num_of_tabs : num_of_tabs,
 					chart_for_tab1 : chart_for_tab1,
 					label_for_tab1 : label_for_tab1,
+					export_for_tab1 : export_for_tab1,
 					chart_for_tab2 : chart_for_tab2,
 					label_for_tab2 : label_for_tab2,
+					export_for_tab2 : export_for_tab2,
 					chart_for_tab3 : chart_for_tab3,
 					label_for_tab3 : label_for_tab3,
+					export_for_tab3 : export_for_tab3,
 					chart_for_tab4 : chart_for_tab4,
 					label_for_tab4 : label_for_tab4,
+					export_for_tab4 : export_for_tab4,
 					chart_for_tab5 : chart_for_tab5,
-					label_for_tab5 : label_for_tab5
+					label_for_tab5 : label_for_tab5,
+					export_for_tab5 : export_for_tab5
 				}
 			}
 		}

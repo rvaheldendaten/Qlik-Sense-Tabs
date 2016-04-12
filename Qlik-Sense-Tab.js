@@ -12,15 +12,53 @@ function ( qlik, props, cssContent ) {
 	var opened_object_id = []; //Array to store opened object ID
 
 	//Function to create the new tab content
-	function createTabContent(tab_id,object_id) {
+	function createTabContent(tab_id,object_id,enable_export) {
 		var tab_content = "";
 		tab_content += 		'<section id="panel-' + tab_id + '-' + object_id + '" >';
 		tab_content += 			'<main class="panel-content" >';
+		//tab_content +=				'<button id="export_data-' + tab_id + '-' + object_id + '">Export</button>';
+		if(enable_export) {
+			tab_content +=		'<div class="general-button" id="export_data-' + tab_id + '-' + object_id + '"><span class="icon1"><span class="icon2"></span></span></div>';
+		}
 		tab_content += 				'<div id="viz' + tab_id + '-' + object_id + '" class="qvobject"></div>';
 		tab_content += 			'</main>';
-		tab_content += 		'</section>';	
-		
+		tab_content += 		'</section>';		
+
 		return tab_content;	
+	}
+	
+	function createInstruction(tab_id,object_id){
+		var tab_content = "";
+		tab_content += 		'<section id="panel-' + tab_id + '-' + object_id + '" >';
+		tab_content += 			'<main class="panel-content" >';
+		tab_content += "<div>Please follow the following instructions:</div><br>";
+		tab_content +="<ol>";
+		tab_content += "<li>Create charts and add them to master items. (You can delete the charts after you added them to master items.)</li>";
+		tab_content += '<li>Drag and drop the "Tabs" extension onto the canvas.</li>';
+		tab_content += '<li>On the extension property, navigate to Settings>Properties and change the "Number of Tabs" to change the number of tabs displayed on the extension.</li>';
+		tab_content += "<li>Select a chart on the drop-down list and modify the label for each tab.</li>";
+		tab_content += "</ol>";
+		tab_content += 			'</main>';
+		tab_content += 		'</section>';	
+		return tab_content;	
+	}
+
+	function createChartObject(tab_id,object_id,layout) {
+
+	  	app.getObject( 'viz' + tab_id + '-' + object_id, eval("layout.props.chart_for_tab" + tab_id));
+	}
+
+	function createExportEvent(tab_id,object_id,layout){
+		var object = app.getObject( 'viz' + tab_id + '-' + object_id, eval("layout.props.chart_for_tab" + tab_id));
+
+		//Add excel download event to the button			  		  
+		object.then(function(model) {       
+   			var table = new qlik.table(model);  
+        	$('#export_data-' + tab_id + '-' + object_id ).on('click', function(e) {  
+		  		e.preventDefault(); 
+         		table.exportData({download: true});  
+       		})       
+		}) 
 	}
 
 	return {
@@ -39,7 +77,7 @@ function ( qlik, props, cssContent ) {
 			// Set the width of each tab based on the number of tabs
 			if (window.matchMedia('screen and (min-width:640px)').matches) {
 				width = Math.round(80/num_of_tabs);
-			}else {
+			} else {
 				width = 100;
 			}
 
@@ -65,7 +103,15 @@ function ( qlik, props, cssContent ) {
 			html += '<article id="panels">';
 			html += 	'<div class="container">';
 			for (i=1; i<=num_of_tabs; i++) {
-				html += createTabContent(i,object_id);
+				if(eval("layout.props.chart_for_tab" + i)) {	
+					html += createTabContent(i,object_id,eval("layout.props.export_for_tab" + i));
+					
+					if(eval("layout.props.export_for_tab" + i)) {
+						createExportEvent(i,object_id,layout);
+					}
+				} else {
+					html += createInstruction(i,object_id,layout);
+				}
 			}
 			html += 	'</div>';
 			html += '</article>';
@@ -82,9 +128,12 @@ function ( qlik, props, cssContent ) {
 						
 			// Get tab1 object
 			if(layout.props.chart_for_tab1 && repeated > 1) {
-				app.visualization.get(layout.props.chart_for_tab1).then(function(vis){
-					vis.show("viz1-" + object_id);
-				});
+				//app.visualization.get(layout.props.chart_for_tab1).then(function(vis){
+				//	vis.show("viz1-" + object_id);
+				//});
+
+			    createChartObject("1", object_id, layout);
+			  
 				opened_object_id.push(layout.props.chart_for_tab1);
 			}
 
@@ -104,14 +153,16 @@ function ( qlik, props, cssContent ) {
 
 				if(eval("layout.props.chart_for_tab" + tab_id)) {	
 					// Get the new object
-					app.visualization.get(eval("layout.props.chart_for_tab" + tab_id)).then(function(vis){
-						vis.show('viz' + tab_id + '-' + object_id);						
-					});
+					//app.visualization.get(eval("layout.props.chart_for_tab" + tab_id)).then(function(vis){
+					//	vis.show('viz' + tab_id + '-' + object_id);						
+					//});
+				  
+				  	createChartObject(tab_id,object_id,layout);
 
 					// Close the old object
-					app.visualization.get(opened_object_id.pop()).then(function(vis){
-						vis.close();		
-					});
+					//app.visualization.get(opened_object_id.pop()).then(function(vis){
+					//	vis.close();		
+					//});
 
 					// Store the new object ID
 					opened_object_id.push(eval("layout.props.chart_for_tab" + tab_id))
@@ -121,4 +172,3 @@ function ( qlik, props, cssContent ) {
 	};
 
 } );
-
