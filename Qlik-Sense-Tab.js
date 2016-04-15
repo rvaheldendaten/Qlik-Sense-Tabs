@@ -67,6 +67,9 @@ function ( qlik, props, cssContent ) {
 		},
 	  	definition: ( props )
 	  	,
+		snapshot: {
+			canTakeSnapshot: true
+		},
 		paint: function ($element, layout) {
 
 			var html = "";
