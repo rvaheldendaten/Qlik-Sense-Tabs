@@ -56,7 +56,7 @@ function ( qlik, props, cssContent ) {
    			var table = new qlik.table(model);  
         	$('#export_data-' + tab_id + '-' + object_id ).on('click', function(e) {  
 		  		e.preventDefault(); 
-         		table.exportData({download: true});  
+         		table.exportData({download: false},function(downloadpath){ window.open(window.location.href.substring(0,window.location.href.indexOf('/sense/app/')+11)+downloadpath);}); 
        		})       
 		}) 
 	}
